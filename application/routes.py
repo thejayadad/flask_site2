@@ -2,6 +2,7 @@
 from application import app
 from flask import Response, render_template, request, json
 from flask_pymongo import pymongo
+from application.models import User, Yoga, Enrollment
 
 from os import environ
 
@@ -26,7 +27,6 @@ def index():
 
 @app.route("/courses")
 def courses():
-
     return render_template("courses.html", classData = classData, courses=True)
 
 
@@ -64,18 +64,16 @@ def api(idx=None):
     return Response(json.dumps(jdata), mimetype="application/json")
 
 
-class User(db.Document):
-    user_id  =  db.IntField(unique=True)
-    first_name  =  db.StringField(max_length=50)
-    last_name = db.StringField(max_length=50)
-    email = db.StringField(max_length=30)
-    password = db.StringField(max_length=30)
-
 
 app.route("/user")
 def user():
-    User(user_id=1, first_name="Jace", last_name="Goat", email="jace@goat.com", password="football").save()
-    users = User.objects.all()
+    if request.method == 'POST':
+        users = db.users
+        existing_user = users.find_one({'email': request.form['email']})
+        if existing_user is None:
+            users.insert_one({'email': request.form['email'], 'first_name': request.form['first_name'], 'password': request.form['password'], 'last_name': request.form['last_name']})
+
+   
     return render_template("user.html", users=users)
 
 

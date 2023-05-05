@@ -1,4 +1,5 @@
 {% extends "base.html"%}
+
 {% block content%}
 
     <section class="container">
@@ -20,11 +21,19 @@
                <td>{{data.title}}</td>
                <td>{{data.instructor}}</td>
                <td>{{data.duration}}</td>
-                <td><a type="submit">Book Now</a></td>
+
+                <td>
+                    <form method="POST" action="{{url_for('enrollment')}}">
+                        <input type="hidden" name="classID" value="{{data.classID}}">
+                        <input type="hidden" name="title" value="{{data.title}}">
+                        <input type="hidden" name="duration" value="{{data.duration}}">
+                    <button type="submit">Book Now</button>
+                    </form>
+                </td>
                 </tr>
                {% endfor %}
               </tbody>
         </table>
     </section>
    
-{% endblock%}
+{% endblock %}

@@ -1,5 +1,16 @@
 import flask
 from application import db
+from flask_pymongo import pymongo
+from os import environ
+
+
+
+CONNECTION_STRING = environ.get('MONGODB')
+client = pymongo.MongoClient(CONNECTION_STRING)
+db = client.get_database('classes')
+user_collection = pymongo.collection.Collection(db, 'user_collection')
+
+
 
 class User(db.Document):
     user_id = db.IntField( unique=True )

@@ -2,7 +2,25 @@
 {% block content%}
 
     <section class="container">
-        <h2>Login</h2>
+        <h2>{{title}}</h2>
+        <form name="login" action="" method="post">
+
+            {{ form.hidden_tag()}}
+            
+            <p>
+                {{form.email.label}}<br>
+                {{form.email(size=30)}}
+            </p>
+            <p>
+                {{form.password.label}}<br>
+                {{form.password(size=50)}}
+            </p>
+            <p>
+                {{form.email(size=50)}}
+            </p>
+
+    
+        </form>
     </section>
    
 {% endblock%}

@@ -64,8 +64,19 @@ def api(idx=None):
     return Response(json.dumps(jdata), mimetype="application/json")
 
 
+class User(db.Document):
+    user_id  =  db.IntField(unique=True)
+    first_name  =  db.StringField(max_length=50)
+    last_name = db.StringField(max_length=50)
+    email = db.StringField(max_length=30)
+    password = db.StringField(max_length=30)
 
-@app.route("/test")
-def test():
-    db.collection.insert_one({"classID": 107, "title": "In-Home Yoga", "instructor": "Tiffany", "duration": 75})
-    return "Added Successfully I Think"
+
+app.route("/user")
+def user():
+    User(user_id=1, first_name="Jace", last_name="Goat", email="jace@goat.com", password="football").save()
+    users = User.objects.all()
+    return render_template("user.html", users=users)
+
+
+
